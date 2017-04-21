@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.content.SharedPreferences.Editor;
-
+import java.text.DecimalFormat;
 
 public class MainActivity extends Activity
         implements OnEditorActionListener {
@@ -43,7 +43,7 @@ public class MainActivity extends Activity
     public void onPause() {
         // save the instance variables
         Editor editor = savedValues.edit();
-        editor.putString("fahrenheit", fahrenheit);
+        editor.putString("fahrenheit", "");
         editor.apply();
 
         super.onPause();
@@ -55,7 +55,7 @@ public class MainActivity extends Activity
         super.onResume();
 
         // get the instance variables
-        fahrenheit = savedValues.getString("fahrenheit", "");
+        fahrenheit = savedValues.getString("fahrenheit", "0");
 
 
         // set the bill amount on its widget
@@ -70,17 +70,30 @@ public class MainActivity extends Activity
         // get the temp in degrees fahrenheit
         fahrenheit = tempInput.getText().toString();
         double celsiusValue;
-
+        String tempOut;
         // calculate celsius
         if (fahrenheit.equals("")) {
-            celsiusValue = 0;
+
+            tempOut = "0";
         }
         else {
-            celsiusValue = ((Double.parseDouble(fahrenheit)-32)/1.8);
-        }
+            celsiusValue = ((Double.parseDouble(fahrenheit) - 32) / 1.8);
 
-        // display the other results with formatting
-        String tempOut = Double.toString(celsiusValue);
+            try {
+                DecimalFormat numberFormat = new DecimalFormat("#.00");
+
+
+                // display the other results with formatting
+                tempOut = Double.toString(celsiusValue);
+                if (tempOut.contains(".")) {
+                    tempOut = numberFormat.format(tempOut);
+                }
+
+            } catch (Exception e) {
+                tempOut = Double.toString(celsiusValue);
+            }
+
+        }
         celsius.setText(tempOut);
 
     }
@@ -93,5 +106,7 @@ public class MainActivity extends Activity
         }
         return false;
     }
+
+
 
 }

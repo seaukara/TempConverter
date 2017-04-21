@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TempConverter</string>
+    <string name="_32_c">32 c</string>
+    <string name="fahrenheit">Fahrenheit</string>
+    <string name="celsius">Celsius</string>
+    <string name="degrees">Degrees</string>
 </resources>
